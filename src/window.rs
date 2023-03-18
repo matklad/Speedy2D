@@ -146,6 +146,22 @@ pub trait WindowHandler<UserEventType = ()>
     }
 
     /// Invoked when the window is resized.
+    ///
+    /// To convert to device-independent scaled pixels, multiply by
+    /// `WindowHelper::scale_factor`
+    ///
+    /// ```rust
+    /// # struct MyHandler;
+    /// use num_traits::AsPrimitive;
+    /// use speedy2d::window::{WindowHandler, WindowHelper};
+    /// use speedy2d::dimen::{UVec2, Vec2};
+    ///
+    /// impl WindowHandler for MyHandler {
+    ///     fn on_resize(&mut self, helper: &mut WindowHelper, size_pixels: UVec2) {
+    ///         let logical_pixels: Vec2 = size_pixels.into_f32() * (helper.get_scale_factor() as f32);
+    ///     }
+    /// }
+    /// ```
     #[allow(unused_variables)]
     #[inline]
     fn on_resize(&mut self, helper: &mut WindowHelper<UserEventType>, size_pixels: UVec2)
